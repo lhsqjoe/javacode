@@ -1,8 +1,9 @@
+package com.qiao.code.rabbitmq.tutorials.helloworld;
 import com.rabbitmq.client.*;
 
 import java.io.IOException;
 
-public class Recv {
+public class Recv{
 
     private final static String QUEUE_NAME = "hello";
 
