@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.primemobi.iaas.mapper.TUserMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.primemobi.iaas.entity.TUser">
+		<id column="ID" property="id" />
+		<result column="USER_NAME" property="userName" />
+		<result column="IS_AGENT" property="isAgent" />
+		<result column="IS_ADMIN" property="isAdmin" />
+		<result column="PASSWORD" property="password" />
+		<result column="NAME" property="name" />
+		<result column="CERTIFICATE_TYPE" property="certificateType" />
+		<result column="CERTIFICATE_NO" property="certificateNo" />
+		<result column="MOBILE" property="mobile" />
+		<result column="EMAIL" property="email" />
+		<result column="STATUS" property="status" />
+		<result column="CREATE_TIME" property="createTime" />
+		<result column="QUERY_KEY" property="queryKey" />
+		<result column="SECURY_KEY" property="securyKey" />
+		<result column="IS_VAILDUSB" property="isVaildusb" />
+		<result column="ADDRESS" property="address" />
+		<result column="validkey" property="validkey" />
+		<result column="postcode" property="postcode" />
+		<result column="company" property="company" />
+		<result column="regcode" property="regcode" />
+		<result column="USER_CREATER" property="userCreater" />
+		<result column="usertype" property="usertype" />
+		<result column="DEPID" property="depid" />
+		<result column="ORGID" property="orgid" />
+		<result column="COMPANYID" property="companyid" />
+		<result column="SECDEPID" property="secdepid" />
+		<result column="SFLAG" property="sflag" />
+	</resultMap>
+	
+	<resultMap id="LinkedHashMap" type="java.util.LinkedHashMap"></resultMap>
+	<resultMap id="HashMap" type="java.util.HashMap"></resultMap>
+
+	<insert id="insertAndGetId" useGeneratedKeys="true" keyProperty="id"
+			parameterType="com.primemobi.iaas.entity.TUser">
+		INSERT INTO T_USER
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="userName != null and userName !='' " >
+				USER_NAME,
+			</if>
+			<if test="password != null and password !='' " >
+				PASSWORD,
+			</if>
+			<if test="status != null" >
+				STATUS,
+			</if>
+			<if test="mobile != null and mobile !='' " >
+				MOBILE,
+			</if>
+			<if test="email != null and email !='' " >
+				EMAIL,
+			</if>
+			<if test="createTime != null" >
+				CREATE_TIME,
+			</if>
+		</trim>
+		<trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+			<if test="userName != null and userName !='' " >
+				#{userName},
+			</if>
+			<if test="password != null and password !='' " >
+				#{password},
+			</if>
+			<if test="status != null" >
+				#{status},
+			</if>
+			<if test="mobile != null and mobile !='' " >
+				#{mobile},
+			</if>
+			<if test="email != null and email !='' " >
+				#{email},
+			</if>
+			<if test="createTime != null" >
+				#{createTime},
+			</if>
+		</trim>
+	</insert>
+
+	<select id="selectUserPage" resultMap="LinkedHashMap" parameterType="HashMap">
+		SELECT
+		U.ID AS id,
+		U.USER_NAME AS userName,
+		U.PASSWORD AS password,
+		U.MOBILE AS mobile,
+		U.EMAIL AS email,
+		U.STATUS AS status,
+		U.CREATE_TIME AS createTime,
+		R.NAME AS rolename
+		FROM T_USER U
+		LEFT JOIN T_USER_ROLE UR on U.ID=UR.USER_ID
+		LEFT JOIN T_ROLE R on UR.ROLE_ID=R.ID
+		<where>
+			<if test="userName != null and userName !='' ">
+				AND U.USER_NAME=#{userName}
+			</if>
+			<if test="beginTime!=null and beginTime!='' ">and U.CREATE_TIME &gt;= '${beginTime} 00:00:00'</if>
+			<if test="endTime!=null and endTime!='' ">and U.CREATE_TIME &lt; '${endTime} 23:59:59'</if>
+		</where>
+	</select>
+</mapper>

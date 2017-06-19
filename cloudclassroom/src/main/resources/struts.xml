@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+    <include file="struts-default.xml"></include>
+    <constant name="struts.devMode" value="false"/>
+    <constant name="struts.locale" value="zh_CN"/>
+    <constant name="struts.i18n.encoding" value="UTF-8"/>
+    <constant name="struts.custom.i18n.resources" value="messageResource"/>
+    <constant name="struts.convention.classes.reload" value="true"/>
+    <constant name="struts.ui.theme" value="simple"/>
+    <constant name="struts.convention.action.packages" value="com.cloudClassroom.action"/>
+    <constant name="struts.action.extension" value="action,do"/>
+
+
+    <package name="primemobi-action" namespace="/" extends="struts-default">
+
+        <interceptors>
+            <interceptor name="privilegeInterceptor" class="com.primemobi.iaas.filter.PrivilegeInterceptor"/>
+            <interceptor name="userLogInterceptor" class="com.primemobi.iaas.filter.UserLogInterceptor"/>
+
+            <interceptor-stack name="userCommonStack">
+                <interceptor-ref name="defaultStack"/>
+                <interceptor-ref name="privilegeInterceptor"/>
+                <interceptor-ref name="userLogInterceptor"/>
+            </interceptor-stack>
+        </interceptors>
+
+        <default-interceptor-ref name="userCommonStack"/>
+        <global-results>
+            <result name="exception" type="redirect">index.jsp</result>
+            <result name="index">/index.jsp</result>
+            <result name="success">/page/common/success.jsp</result>
+            <result name="info">/page/common/info.jsp</result>
+        </global-results>
+    </package>
+
+    <package name="primemobi-json-action" namespace="/" extends="json-default">
+        <interceptors>
+            <interceptor name="privilegeInterceptor" class="com.primemobi.iaas.filter.PrivilegeInterceptor"/>
+            <interceptor name="userLogInterceptor" class="com.primemobi.iaas.filter.UserLogInterceptor"/>
+
+            <interceptor-stack name="userCommonStack">
+                <interceptor-ref name="defaultStack"/>
+                <interceptor-ref name="privilegeInterceptor"/>
+                <interceptor-ref name="userLogInterceptor"/>
+            </interceptor-stack>
+        </interceptors>
+
+        <default-interceptor-ref name="userCommonStack"/>
+        <global-results>
+            <result name="exception" type="redirect">index.jsp</result>
+            <result name="info">/page/common/info.jsp</result>
+            <result name="json" type="json"></result>
+        </global-results>
+    </package>
+</struts>
