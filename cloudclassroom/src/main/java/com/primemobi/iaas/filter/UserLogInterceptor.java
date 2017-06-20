@@ -8,7 +8,7 @@ import com.primemobi.iaas.entity.TLoginfo;
 import com.primemobi.iaas.entity.TMenu;
 import com.primemobi.iaas.service.ITLoginfoService;
 import com.primemobi.iaas.service.ITMenuService;
-import com.primemobi.iaas.util.IPUtil;
+import com.xiaoleilu.hutool.util.NetUtil;
 import org.apache.struts2.ServletActionContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -38,7 +38,7 @@ public class UserLogInterceptor extends AbstractInterceptor {
             TMenu menu = menuService.selectOne(new EntityWrapper<TMenu>().eq("url", methodName + ".action"));
             TLoginfo loginfo = new TLoginfo();
             loginfo.setUserId(userName);
-            loginfo.setUserIp(IPUtil.getIpAddress(request));//获取客户端IP地址
+            loginfo.setUserIp(NetUtil.getIpByHost(request.getRemoteHost()));//获取客户端IP地址
             loginfo.setCreateTime(new Date());
             if(menu!=null){
                 loginfo.setMessage(menu.getName());
