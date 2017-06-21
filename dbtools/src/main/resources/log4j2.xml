@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </Console>
+    </Appenders>
+    <Loggers>
+        <Root level="Debug">
+            <AppenderRef ref="Console"/>
+        </Root>
+        <Logger name="com.primemobi" level="Debug"/>
+        <Logger name="org.springframework" level="Warn"/>
+        <Logger name="org.apache.struts2" level="Warn"/>
+        <Logger name="com.opensymphony.xwork2" level="Warn"/>
+        <Logger name="org.apache.mybatis" level="Warn"/>
+        <Logger name="org.mybatis.spring" level="Warn"/>
+        <Logger name="com.baomidou.mybatisplus" level="Warn"/>
+
+    </Loggers>
+</Configuration>
